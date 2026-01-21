@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone, Zap } from "lucide-react";
 import { NAV_LINKS, COMPANY_INFO } from "@/lib/data";
-import { Button } from "@/components/ui";
+import { Button } from "@/components/ui/button";
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 import Image from "next/image";
 

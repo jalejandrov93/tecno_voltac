@@ -1,14 +1,15 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Shield, Award, Clock, ArrowRight, Phone } from "lucide-react";
-import { IconClockCheck, IconAward } from '@tabler/icons-react';
-import { Button } from "@/components/ui";
+import { Shield, ArrowRight, Phone } from "lucide-react";
+import { IconClockCheck, IconAward } from "@tabler/icons-react";
+import { Button } from "@/components/ui/button";
 import { COMPANY_INFO } from "@/lib/data";
-import Lightning from '@/components/Lightning';
+import Lightning from "@/components/Lightning";
 import Link from "next/link";
 import Image from "next/image";
-import { NumberTicker } from '@/components/ui/number-ticker';
+import { NumberTicker } from "@/components/ui/number-ticker";
+import { useTheme } from "next-themes";
 
 const features = [
   {
@@ -26,6 +27,9 @@ const features = [
 ];
 
 export const HeroSection = () => {
+  const { resolvedTheme } = useTheme();
+  
+
   return (
     <section
       className="relative min-h-screen flex items-center pt-16 md:pt-20 overflow-hidden"
@@ -35,9 +39,9 @@ export const HeroSection = () => {
       <div className="absolute inset-0 bg-linear-to-br from-slate-50 via-white to-primary/5 dark:from-slate-900 dark:via-slate-900 dark:to-primary/10" />
 
       {/* Lightning Effect Background */}
-      <div className="absolute inset-0 opacity-20 dark:opacity-30 mix-blend-screen pointer-events-none">
+      <div className="absolute inset-0 opacity-30 dark:mix-blend-screen pointer-events-none">
         <Lightning
-          hue={210}
+          hue={resolvedTheme === "dark" ? 210 : 40}
           xOffset={1.2}
           speed={0.5}
           intensity={0.4}
@@ -127,7 +131,10 @@ export const HeroSection = () => {
                   className="group ring ring-white hover:ring-2 w-40 hover:w-44 hover:ring-yellow-400 transition-all duration-300s"
                 >
                   Solicitar Cotización
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-all duration-300s" aria-hidden="true" />
+                  <ArrowRight
+                    className="w-5 h-5 group-hover:translate-x-1 transition-all duration-300s"
+                    aria-hidden="true"
+                  />
                 </Button>
               </Link>
               <Link href={COMPANY_INFO.whatsappLink}>
@@ -185,10 +192,16 @@ export const HeroSection = () => {
                       <motion.div
                         className="absolute -top-2 left-1/2 -translate-x-1/2 z-10 hidden"
                         animate={{ y: [0, -8, 0] }}
-                        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                        transition={{
+                          duration: 4,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                        }}
                       >
                         <div className="w-24 h-24 bg-linear-to-br from-white/30 to-white/10 backdrop-blur-md border border-white/30 rounded-full flex items-center justify-center shadow-xl shadow-black/10 transition-transform hover:scale-105 p-2">
-                          <span className="text-[10px] group-hover:text-yellow-400 font-bold text-white uppercase tracking-wider drop-shadow-md">Instalaciones Eléctricas</span>
+                          <span className="text-[10px] group-hover:text-yellow-400 font-bold text-white uppercase tracking-wider drop-shadow-md">
+                            Instalaciones Eléctricas
+                          </span>
                         </div>
                       </motion.div>
 
@@ -196,10 +209,17 @@ export const HeroSection = () => {
                       <motion.div
                         className="absolute bottom-6 -right-2 z-10 hidden"
                         animate={{ y: [0, 8, 0] }}
-                        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                        transition={{
+                          duration: 5,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                          delay: 1,
+                        }}
                       >
                         <div className="w-24 h-24 bg-linear-to-br from-white/30 to-white/10 backdrop-blur-md border border-white/30 rounded-full flex items-center justify-center shadow-xl shadow-black/10 transition-transform hover:scale-105 p-2">
-                          <span className="text-[10px] group-hover:text-yellow-400 font-bold text-white uppercase tracking-wider drop-shadow-md">Instalaciones de Gas</span>
+                          <span className="text-[10px] group-hover:text-yellow-400 font-bold text-white uppercase tracking-wider drop-shadow-md">
+                            Instalaciones de Gas
+                          </span>
                         </div>
                       </motion.div>
 
@@ -207,24 +227,46 @@ export const HeroSection = () => {
                       <motion.div
                         className="absolute bottom-6 group -left-2 z-10 hidden"
                         animate={{ y: [0, 8, 0] }}
-                        transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+                        transition={{
+                          duration: 4.5,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                          delay: 0.5,
+                        }}
                       >
                         <div className="w-24 h-24  bg-linear-to-br from-white/20 to-white/10 backdrop-blur-md border border-white/30 rounded-full flex items-center justify-center shadow-xl shadow-black/10 transition-transform hover:scale-105 p-2">
-                          <span className=" text-[10px] group-hover:text-yellow-400 transition-colors duration-300 font-bold text-white uppercase tracking-wider drop-shadow-md">Acabados de obra de construcción</span>
+                          <span className=" text-[10px] group-hover:text-yellow-400 transition-colors duration-300 font-bold text-white uppercase tracking-wider drop-shadow-md">
+                            Acabados de obra de construcción
+                          </span>
                         </div>
                       </motion.div>
                     </div>
-
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
                     <div className="bg-white/60 rounded-xl p-4">
-                      <p className="text-3xl text-blue-500 dark:text-blue-900 font-bold"><NumberTicker value={500} className="text-blue-500 dark:text-blue-900" />+</p>
-                      <p className="text-blue-500 dark:text-blue-900 font-semibold">Proyectos exitosos</p>
+                      <p className="text-3xl text-blue-500 dark:text-blue-900 font-bold">
+                        <NumberTicker
+                          value={500}
+                          className="text-blue-500 dark:text-blue-900"
+                        />
+                        +
+                      </p>
+                      <p className="text-blue-500 dark:text-blue-900 font-semibold">
+                        Proyectos exitosos
+                      </p>
                     </div>
                     <div className="bg-white/60 rounded-xl p-4">
-                      <p className="text-3xl text-blue-500 dark:text-blue-900 font-bold"><NumberTicker value={100} className="text-blue-500 dark:text-blue-900" />%</p>
-                      <p className="text-blue-500 dark:text-blue-900 font-semibold">Clientes satisfechos</p>
+                      <p className="text-3xl text-blue-500 dark:text-blue-900 font-bold">
+                        <NumberTicker
+                          value={100}
+                          className="text-blue-500 dark:text-blue-900"
+                        />
+                        %
+                      </p>
+                      <p className="text-blue-500 dark:text-blue-900 font-semibold">
+                        Clientes satisfechos
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -238,7 +280,10 @@ export const HeroSection = () => {
               >
                 <div className="flex items-center gap-3">
                   <div className="flex items-center justify-center">
-                    <IconAward className="w-10 h-10 text-blue-500 dark:text-yellow-400" aria-hidden="true" />
+                    <IconAward
+                      className="w-10 h-10 text-blue-500 dark:text-yellow-400"
+                      aria-hidden="true"
+                    />
                   </div>
                   <div>
                     <p className="text-xs text-slate-500 dark:text-slate-200">
@@ -258,7 +303,10 @@ export const HeroSection = () => {
               >
                 <div className="flex items-center gap-3">
                   <div className="flex items-center justify-center">
-                    <IconClockCheck className="w-10 h-10 text-blue-500 dark:text-yellow-400" aria-hidden="true" />
+                    <IconClockCheck
+                      className="w-10 h-10 text-blue-500 dark:text-yellow-400"
+                      aria-hidden="true"
+                    />
                   </div>
                   <div>
                     <p className="text-xs text-slate-500 dark:text-slate-200">
@@ -274,7 +322,6 @@ export const HeroSection = () => {
           </motion.div>
         </div>
       </div>
-
     </section>
   );
 };

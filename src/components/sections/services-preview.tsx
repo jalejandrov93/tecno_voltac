@@ -3,7 +3,8 @@
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { ServiceCard, Button } from "@/components/ui";
+import { ServiceCard } from "@/components/ui/service-card";
+import { Button } from "@/components/ui/button";
 import { SERVICES } from "@/lib/data";
 import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
 
@@ -60,8 +61,10 @@ export const ServicesPreview = () => {
             id="services-heading"
             className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4"
           >
-            Soluciones {" "}
-            <span className="text-primary dark:text-yellow-400">Certificadas</span>
+            Soluciones{" "}
+            <span className="text-primary dark:text-yellow-400">
+              Certificadas
+            </span>
           </h2>
           <p className="text-lg text-slate-600 dark:text-slate-400">
             Ofrecemos servicios integrales de instalaciones eléctricas, gas y
@@ -85,16 +88,6 @@ export const ServicesPreview = () => {
           ))}
         </div>
 
-        {/* Infinite Moving Cards */}
-        <div className="mb-16">
-          <div className="relative flex flex-col items-center justify-center overflow-hidden rounded-md antialiased bg-transparent dark:bg-grid-white/[0.05]">
-            <InfiniteMovingCards
-              items={BRANDS}
-              direction="right"
-              speed="slow"
-            />
-          </div>
-        </div>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -103,14 +96,21 @@ export const ServicesPreview = () => {
           className="text-center"
         >
           <Link href="/servicios">
-            <Button
-              className="w-48 group hover:w-52 h-10"
-            >
+            <Button className="w-48 group hover:w-52 h-10">
               Ver todos los servicios
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" aria-hidden="true" />
+              <ArrowRight
+                className="w-5 h-5 group-hover:translate-x-2 transition-transform"
+                aria-hidden="true"
+              />
             </Button>
           </Link>
         </motion.div>
+      </div>
+      {/* Infinite Moving Cards */}
+      <div className="w-full mb-4 mt-4">
+        <div className="relative flex flex-col items-center justify-center overflow-hidden rounded-md antialiased bg-transparent dark:bg-grid-white/[0.05]">
+          <InfiniteMovingCards items={BRANDS} direction="right" speed="slow" />
+        </div>
       </div>
     </section>
   );

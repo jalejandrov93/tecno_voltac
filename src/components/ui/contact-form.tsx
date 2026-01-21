@@ -284,19 +284,22 @@ export const ContactForm = () => {
       {/* Submit Button */}
       <Button
         type="submit"
-        variant="primary"
+        variant="default"
         size="lg"
         className="w-full"
-        isLoading={isSubmitting}
-        leftIcon={
-          isSubmitting ? (
-            <Loader2 className="w-5 h-5 animate-spin" aria-hidden="true" />
-          ) : (
-            <Send className="w-5 h-5" aria-hidden="true" />
-          )
-        }
+        disabled={isSubmitting}
       >
-        {isSubmitting ? "Enviando..." : "Enviar mensaje"}
+        {isSubmitting ? (
+          <>
+            <Loader2 className="animate-spin" aria-hidden="true" />
+            Enviando...
+          </>
+        ) : (
+          <>
+            <Send aria-hidden="true" />
+            Enviar mensaje
+          </>
+        )}
       </Button>
 
       <p className="text-xs text-slate-500 dark:text-slate-400 text-center">

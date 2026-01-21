@@ -2,7 +2,9 @@
 
 import { motion } from "framer-motion";
 import { Shield, Phone, ArrowRight } from "lucide-react";
-import { ServiceCard, Button } from "@/components/ui";
+import { ServiceCard } from "@/components/ui/service-card";
+import { Button } from "@/components/ui/button";
+
 import { SERVICES, COMPANY_INFO } from "@/lib/data";
 import Lightning from "@/components/Lightning";
 import { CTASection } from "@/components/sections";

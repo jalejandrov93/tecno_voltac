@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { Phone, ArrowRight, Shield, Clock, CheckCircle } from "lucide-react";
 import { BackgroundBeams } from "@/components/ui/background-beams";
-import { Button } from "@/components/ui";
+import { Button } from "@/components/ui/button";
 import { COMPANY_INFO } from "@/lib/data";
 import Link from "next/link";
 
@@ -54,8 +54,8 @@ export const CTASection = () => {
                 key={index}
                 className="flex items-center gap-2 text-white/90"
               >
-                <div className="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center">
-                  <benefit.icon className="w-4 h-4" aria-hidden="true" />
+                <div className="flex items-center justify-center">
+                  <benefit.icon className="w-6 h-6 text-yellow-400" aria-hidden="true" />
                 </div>
                 <span className="text-sm font-medium">{benefit.text}</span>
               </div>

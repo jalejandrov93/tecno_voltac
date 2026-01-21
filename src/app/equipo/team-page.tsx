@@ -1,9 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Users, Shield, Award, TrendingUp, Phone, ArrowRight } from "lucide-react";
-import { TeamCard, Button } from "@/components/ui";
-import { TEAM_MEMBERS, TEAM_HIGHLIGHTS, COMPANY_INFO } from "@/lib/data";
+import { Users, Shield, Award, TrendingUp } from "lucide-react";
+import { TeamCard } from "@/components/ui/team-card";
+
+import { TEAM_MEMBERS, TEAM_HIGHLIGHTS } from "@/lib/data";
 import { CTASection } from "@/components/sections";
 
 export const TeamPage = () => {

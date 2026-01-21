@@ -2,7 +2,8 @@
 
 import { motion } from "framer-motion";
 import { MapPin, Phone, Mail, Clock, MessageCircle, Shield } from "lucide-react";
-import { ContactForm, Button } from "@/components/ui";
+import { ContactForm } from "@/components/ui/contact-form";
+import { Button } from "@/components/ui/button";
 import { COMPANY_INFO } from "@/lib/data";
 import Link from "next/link";
 

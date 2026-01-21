@@ -24,6 +24,7 @@ export const InfiniteMovingCards = ({
 
   useEffect(() => {
     addAnimation();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const [start, setStart] = useState(false);
   function addAnimation() {
@@ -47,12 +48,12 @@ export const InfiniteMovingCards = ({
       if (direction === "left") {
         containerRef.current.style.setProperty(
           "--animation-direction",
-          "forwards",
+          "forwards"
         );
       } else {
         containerRef.current.style.setProperty(
           "--animation-direction",
-          "reverse",
+          "reverse"
         );
       }
     }
@@ -72,8 +73,8 @@ export const InfiniteMovingCards = ({
     <div
       ref={containerRef}
       className={cn(
-        "scroller relative z-20 max-w-7xl overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_20%,white_80%,transparent)]",
-        className,
+        "scroller relative z-20 overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_20%,white_80%,transparent)]",
+        className
       )}
     >
       <ul
@@ -81,19 +82,20 @@ export const InfiniteMovingCards = ({
         className={cn(
           "flex w-max min-w-full shrink-0 flex-nowrap gap-12 py-4 items-center",
           start && "animate-scroll",
-          pauseOnHover && "hover:[animation-play-state:paused]",
+          pauseOnHover && "hover:[animation-play-state:paused]"
         )}
       >
         {items.map((item, idx) => (
           <li
-            className="w-[200px] md:w-[100px] max10w-full flex-shrink-0 relative"
+            id={String(idx)}
+            className="w-[250px] max-w-full shrink-0 relative"
             key={item.name}
           >
             <div className="relative h-24 w-full flex items-center justify-center">
               <img
                 src={item.image}
                 alt={item.name}
-                className="max-h-20 w-auto object-contain opacity-70 grayscale hover:grayscale-0 dark:grayscale-0 dark:hover:grayscale hover:opacity-100 transition-all duration-300"
+                className="max-h-24 w-auto object-contain opacity-70 grayscale hover:grayscale-0 dark:grayscale-0 dark:hover:grayscale hover:opacity-100 transition-all duration-300"
               />
             </div>
           </li>

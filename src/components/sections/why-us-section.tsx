@@ -55,8 +55,6 @@ const reasons = [
   },
 ];
 
-
-
 export const WhyUsSection = () => {
   return (
     <section
@@ -79,11 +77,16 @@ export const WhyUsSection = () => {
             id="why-us-heading"
             className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4"
           >
-            Confíe en los <span className="text-primary dark:text-yellow-400">expertos</span>
+            Confíe en los{" "}
+            <span className="text-primary dark:text-yellow-400">expertos</span>
           </h2>
           <p className="text-lg text-slate-600 dark:text-slate-400">
-            En <span className="text-primary font-semibold dark:text-yellow-400">Tecnovoltac</span> combinamos experiencia, certificaciones y compromiso
-            para ofrecerle el mejor servicio técnico de la región.
+            En{" "}
+            <span className="text-primary font-semibold dark:text-yellow-400">
+              Tecnovoltac
+            </span>{" "}
+            combinamos experiencia, certificaciones y compromiso para ofrecerle
+            el mejor servicio técnico de la región.
           </p>
         </motion.div>
 
@@ -96,14 +99,17 @@ export const WhyUsSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group relative p-6 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 hover:border-yellow-400 dark:hover:border-yellow-400 overflow-hidden"
+              className="group relative p-6 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-transparent dark:border-slate-700 transition-all duration-300 hover:border-yellow-400 dark:hover:border-yellow-400 overflow-hidden"
             >
               {/* Decoration Element */}
               <div className="absolute -right-8 -top-8 w-32 h-32 bg-yellow-400/5 rounded-full blur-3xl group-hover:bg-yellow-400/10 transition-all duration-500" />
 
               <div className="relative z-10">
                 <div className="flex items-center gap-4 mb-4">
-                  <reason.icon className="w-10 h-10 text-yellow-400 transition-transform duration-300 group-hover:scale-110" aria-hidden="true" />
+                  <reason.icon
+                    className="w-10 h-10 text-yellow-400"
+                    aria-hidden="true"
+                  />
                   <h3 className="text-xl font-bold text-slate-900 dark:text-white">
                     {reason.title}
                   </h3>
