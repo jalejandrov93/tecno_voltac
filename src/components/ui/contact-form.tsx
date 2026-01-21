@@ -1,283 +1,190 @@
 "use client";
 
-import { useState, type FormEvent, type ChangeEvent } from "react";
 import { Send, Loader2 } from "lucide-react";
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod"; // Import zod
 import { Button } from "./button";
+import { Input } from "./input";
+import { Textarea } from "./textarea";
+import { Label } from "./label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./select";
+import { toast } from "sonner";
 import { COMPANY_INFO } from "@/lib/data";
 
-interface FormData {
-  name: string;
-  email: string;
-  phone: string;
-  service: string;
-  message: string;
-}
-
-interface FormErrors {
-  name?: string;
-  email?: string;
-  phone?: string;
-  message?: string;
-}
-
-const initialFormData: FormData = {
-  name: "",
-  email: "",
-  phone: "",
-  service: "",
-  message: "",
-};
+const formSchema = z.object({
+  name: z.string().min(2, {
+    message: "El nombre debe tener al menos 2 caracteres.",
+  }),
+  email: z.string().email({
+    message: "Ingrese un correo electrónico válido.",
+  }),
+  phone: z.string().min(7, {
+    message: "El teléfono debe tener al menos 7 dígitos.",
+  }),
+  service: z.string().min(1, "Por favor seleccione un servicio."),
+  message: z.string().min(10, {
+    message: "El mensaje debe tener al menos 10 caracteres.",
+  }),
+});
 
 export const ContactForm = () => {
-  const [formData, setFormData] = useState<FormData>(initialFormData);
-  const [errors, setErrors] = useState<FormErrors>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+      service: "",
+      message: "",
+    },
+  });
 
-  const validateForm = (): boolean => {
-    const newErrors: FormErrors = {};
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors, isSubmitting },
+    setValue,
+  } = form;
 
-    if (!formData.name.trim()) {
-      newErrors.name = "El nombre es requerido";
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      // Construir mensaje de WhatsApp
+      const whatsappMessage = encodeURIComponent(
+        `¡Hola! Me gustaría solicitar información.\n\n` +
+        `*Nombre:* ${values.name}\n` +
+        `*Correo:* ${values.email}\n` +
+        `*Teléfono:* ${values.phone}\n` +
+        `*Servicio de interés:* ${values.service}\n\n` +
+        `*Mensaje:*\n${values.message}`
+      );
+
+      // Simular envío
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
+      const whatsappUrl = `${COMPANY_INFO.whatsappLink}?text=${whatsappMessage}`;
+      window.open(whatsappUrl, "_blank");
+
+      toast.success("¡Mensaje enviado correctamente!", {
+        description: "Serás redirigido a WhatsApp para continuar.",
+      });
+
+      form.reset();
+    } catch (error) {
+      toast.error("Hubo un error al enviar el mensaje", {
+        description: "Por favor intente nuevamente.",
+      });
     }
-
-    if (!formData.email.trim()) {
-      newErrors.email = "El correo es requerido";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = "Ingrese un correo válido";
-    }
-
-    if (!formData.phone.trim()) {
-      newErrors.phone = "El teléfono es requerido";
-    } else if (!/^[\d\s+()-]{7,}$/.test(formData.phone)) {
-      newErrors.phone = "Ingrese un teléfono válido";
-    }
-
-    if (!formData.message.trim()) {
-      newErrors.message = "El mensaje es requerido";
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
   };
-
-  const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    if (errors[name as keyof FormErrors]) {
-      setErrors((prev) => ({ ...prev, [name]: undefined }));
-    }
-  };
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (!validateForm()) return;
-
-    setIsSubmitting(true);
-
-    // Construir mensaje de WhatsApp
-    const whatsappMessage = encodeURIComponent(
-      `¡Hola! Me gustaría solicitar información.\n\n` +
-        `*Nombre:* ${formData.name}\n` +
-        `*Correo:* ${formData.email}\n` +
-        `*Teléfono:* ${formData.phone}\n` +
-        `*Servicio de interés:* ${formData.service || "No especificado"}\n\n` +
-        `*Mensaje:*\n${formData.message}`
-    );
-
-    // Simular envío y redirigir a WhatsApp
-    await new Promise((resolve) => setTimeout(resolve, 500));
-
-    const whatsappUrl = `${COMPANY_INFO.whatsappLink}?text=${whatsappMessage}`;
-    window.open(whatsappUrl, "_blank");
-
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    setFormData(initialFormData);
-
-    // Reset estado después de 5 segundos
-    setTimeout(() => setIsSubmitted(false), 5000);
-  };
-
-  if (isSubmitted) {
-    return (
-      <div className="rounded-2xl bg-accent/10 border border-accent/20 p-8 text-center">
-        <div className="w-16 h-16 rounded-full bg-accent/20 flex items-center justify-center mx-auto mb-4">
-          <Send className="w-8 h-8 text-accent" aria-hidden="true" />
-        </div>
-        <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
-          ¡Mensaje enviado!
-        </h3>
-        <p className="text-slate-600 dark:text-slate-400">
-          Serás redirigido a WhatsApp para completar tu solicitud. Nos pondremos
-          en contacto contigo pronto.
-        </p>
-      </div>
-    );
-  }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate>
       {/* Nombre */}
-      <div>
-        <label
-          htmlFor="name"
-          className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5"
-        >
-          Nombre completo *
-        </label>
-        <input
-          type="text"
+      <div className="space-y-2">
+        <Label htmlFor="name">Nombre completo *</Label>
+        <Input
           id="name"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          className={`w-full px-4 py-3 rounded-xl border ${
-            errors.name
-              ? "border-red-500 focus:ring-red-500"
-              : "border-slate-200 dark:border-slate-600 focus:ring-primary"
-          } bg-white dark:bg-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 transition-all`}
           placeholder="Su nombre"
+          className={errors.name ? "border-red-500 focus-visible:ring-red-500" : ""}
+          {...register("name")}
           aria-invalid={!!errors.name}
-          aria-describedby={errors.name ? "name-error" : undefined}
         />
         {errors.name && (
-          <p id="name-error" className="mt-1 text-sm text-red-500" role="alert">
-            {errors.name}
-          </p>
+          <p className="text-sm text-red-500 font-medium">{errors.name.message}</p>
         )}
       </div>
 
       {/* Email y Teléfono */}
       <div className="grid sm:grid-cols-2 gap-5">
-        <div>
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5"
-          >
-            Correo electrónico *
-          </label>
-          <input
+        <div className="space-y-2">
+          <Label htmlFor="email">Correo electrónico *</Label>
+          <Input
             type="email"
             id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            className={`w-full px-4 py-3 rounded-xl border ${
-              errors.email
-                ? "border-red-500 focus:ring-red-500"
-                : "border-slate-200 dark:border-slate-600 focus:ring-primary"
-            } bg-white dark:bg-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 transition-all`}
             placeholder="correo@ejemplo.com"
+            className={errors.email ? "border-red-500 focus-visible:ring-red-500" : ""}
+            {...register("email")}
             aria-invalid={!!errors.email}
-            aria-describedby={errors.email ? "email-error" : undefined}
           />
           {errors.email && (
-            <p
-              id="email-error"
-              className="mt-1 text-sm text-red-500"
-              role="alert"
-            >
-              {errors.email}
-            </p>
+            <p className="text-sm text-red-500 font-medium">{errors.email.message}</p>
           )}
         </div>
 
-        <div>
-          <label
-            htmlFor="phone"
-            className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5"
-          >
-            Teléfono *
-          </label>
-          <input
+        <div className="space-y-2">
+          <Label htmlFor="phone">Teléfono *</Label>
+          <Input
             type="tel"
             id="phone"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            className={`w-full px-4 py-3 rounded-xl border ${
-              errors.phone
-                ? "border-red-500 focus:ring-red-500"
-                : "border-slate-200 dark:border-slate-600 focus:ring-primary"
-            } bg-white dark:bg-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 transition-all`}
             placeholder="+57 300 000 0000"
+            className={errors.phone ? "border-red-500 focus-visible:ring-red-500" : ""}
+            {...register("phone", {
+              onChange: (e) => {
+                // Solo permitir números, espacios, +, - y paréntesis
+                const value = e.target.value.replace(/[^0-9+\s()-]/g, "");
+                setValue("phone", value);
+              },
+            })}
             aria-invalid={!!errors.phone}
-            aria-describedby={errors.phone ? "phone-error" : undefined}
           />
           {errors.phone && (
-            <p
-              id="phone-error"
-              className="mt-1 text-sm text-red-500"
-              role="alert"
-            >
-              {errors.phone}
-            </p>
+            <p className="text-sm text-red-500 font-medium">{errors.phone.message}</p>
           )}
         </div>
       </div>
 
       {/* Servicio */}
-      <div>
-        <label
-          htmlFor="service"
-          className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5"
-        >
-          Servicio de interés
-        </label>
-        <select
-          id="service"
+      <div className="space-y-2">
+        <Label htmlFor="service">Servicio de interés</Label>
+        <Controller
           name="service"
-          value={formData.service}
-          onChange={handleChange}
-          className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary transition-all"
-        >
-          <option value="">Seleccione un servicio</option>
-          <option value="Instalaciones Eléctricas">
-            Instalaciones Eléctricas (RETIE)
-          </option>
-          <option value="Instalaciones de Gas">Instalaciones de Gas</option>
-          <option value="Obra Blanca y Acabados">
-            Drywall, Obra Blanca y Acabados
-          </option>
-          <option value="Varios">Varios servicios</option>
-        </select>
+          control={control}
+          render={({ field }) => (
+            <Select onValueChange={field.onChange} value={field.value}>
+              <SelectTrigger className="w-full bg-white dark:bg-slate-950">
+                <SelectValue placeholder="Seleccione un servicio" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Instalaciones Eléctricas">
+                  Instalaciones Eléctricas (RETIE)
+                </SelectItem>
+                <SelectItem value="Instalaciones de Gas">
+                  Instalaciones de Gas
+                </SelectItem>
+                <SelectItem value="Obra Blanca y Acabados">
+                  Drywall, Obra Blanca y Acabados
+                </SelectItem>
+                <SelectItem value="Varios">Varios servicios</SelectItem>
+              </SelectContent>
+            </Select>
+          )}
+        />
+        {errors.service && (
+          <p className="text-sm text-red-500 font-medium">{errors.service.message}</p>
+        )}
       </div>
 
       {/* Mensaje */}
-      <div>
-        <label
-          htmlFor="message"
-          className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5"
-        >
-          Mensaje *
-        </label>
-        <textarea
+      <div className="space-y-2">
+        <Label htmlFor="message">Mensaje *</Label>
+        <Textarea
           id="message"
-          name="message"
-          value={formData.message}
-          onChange={handleChange}
           rows={4}
-          className={`w-full px-4 py-3 rounded-xl border ${
-            errors.message
-              ? "border-red-500 focus:ring-red-500"
-              : "border-slate-200 dark:border-slate-600 focus:ring-primary"
-          } bg-white dark:bg-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 transition-all resize-none`}
           placeholder="Describa su proyecto o consulta..."
+          className={`resize-none bg-white dark:bg-slate-950 ${errors.message ? "border-red-500 focus-visible:ring-red-500" : ""
+            }`}
+          {...register("message")}
           aria-invalid={!!errors.message}
-          aria-describedby={errors.message ? "message-error" : undefined}
         />
         {errors.message && (
-          <p
-            id="message-error"
-            className="mt-1 text-sm text-red-500"
-            role="alert"
-          >
-            {errors.message}
-          </p>
+          <p className="text-sm text-red-500 font-medium">{errors.message.message}</p>
         )}
       </div>
 
@@ -291,12 +198,12 @@ export const ContactForm = () => {
       >
         {isSubmitting ? (
           <>
-            <Loader2 className="animate-spin" aria-hidden="true" />
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden="true" />
             Enviando...
           </>
         ) : (
           <>
-            <Send aria-hidden="true" />
+            <Send className="mr-2 h-4 w-4" aria-hidden="true" />
             Enviar mensaje
           </>
         )}

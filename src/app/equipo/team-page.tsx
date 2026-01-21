@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Users, Shield, Award, TrendingUp } from "lucide-react";
 import { TeamCard } from "@/components/ui/team-card";
+import { NumberTicker } from "@/components/ui/number-ticker";
 
 import { TEAM_MEMBERS, TEAM_HIGHLIGHTS } from "@/lib/data";
 import { CTASection } from "@/components/sections";
@@ -12,7 +13,7 @@ export const TeamPage = () => {
     <>
       {/* Hero */}
       <section className="relative pt-24 md:pt-32 pb-16 md:pb-24 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-primary/5 dark:from-slate-900 dark:via-slate-900 dark:to-primary/10" />
+        <div className="absolute inset-0 bg-linear-to-br from-slate-50 via-white to-primary/5 dark:from-slate-900 dark:via-slate-900 dark:to-primary/10" />
         <div className="absolute top-20 right-0 w-96 h-96 bg-accent/10 rounded-full blur-3xl" />
         <div className="absolute bottom-0 left-0 w-80 h-80 bg-primary/10 rounded-full blur-3xl" />
 
@@ -23,7 +24,7 @@ export const TeamPage = () => {
             transition={{ duration: 0.5 }}
             className="text-center max-w-3xl mx-auto"
           >
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 text-accent text-sm font-medium mb-6">
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 dark:bg-yellow-400/20 text-accent dark:text-yellow-400 text-sm font-medium mb-6">
               <Users className="w-4 h-4" aria-hidden="true" />
               Profesionales Certificados
             </span>
@@ -54,9 +55,21 @@ export const TeamPage = () => {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="text-center"
               >
-                <p className="text-3xl md:text-4xl font-bold text-primary mb-1">
-                  {highlight.stat}
-                </p>
+                <div className="text-3xl md:text-4xl font-bold text-blue-600 dark:text-yellow-400 mb-1 flex justify-center items-center">
+                  {/* Extract number for ticker and keep suffix if any (e.g. "+", "%") */}
+                  {(() => {
+                    const match = highlight.stat.match(/(\d+)(.*)/);
+                    if (match) {
+                      return (
+                        <>
+                          <NumberTicker value={parseInt(match[1])} />
+                          <span>{match[2]}</span>
+                        </>
+                      );
+                    }
+                    return highlight.stat;
+                  })()}
+                </div>
                 <p className="text-sm text-slate-600 dark:text-slate-400">
                   {highlight.label}
                 </p>
@@ -123,8 +136,8 @@ export const TeamPage = () => {
 
               <div className="space-y-4">
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
-                    <Shield className="w-5 h-5 text-primary" aria-hidden="true" />
+                  <div className="w-10 h-10 rounded-xl bg-primary/10 dark:bg-yellow-400/20 flex items-center justify-center shrink-0">
+                    <Shield className="w-5 h-5 text-primary dark:text-yellow-400" aria-hidden="true" />
                   </div>
                   <div>
                     <h3 className="font-bold text-slate-900 dark:text-white mb-1">
@@ -138,8 +151,8 @@ export const TeamPage = () => {
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center flex-shrink-0">
-                    <Award className="w-5 h-5 text-accent" aria-hidden="true" />
+                  <div className="w-10 h-10 rounded-xl bg-accent/10 dark:bg-yellow-400/20 flex items-center justify-center shrink-0">
+                    <Award className="w-5 h-5 text-accent dark:text-yellow-400" aria-hidden="true" />
                   </div>
                   <div>
                     <h3 className="font-bold text-slate-900 dark:text-white mb-1">
@@ -153,9 +166,9 @@ export const TeamPage = () => {
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-secondary/10 flex items-center justify-center flex-shrink-0">
+                  <div className="w-10 h-10 rounded-xl bg-secondary/10 dark:bg-yellow-400/20 flex items-center justify-center shrink-0">
                     <TrendingUp
-                      className="w-5 h-5 text-secondary"
+                      className="w-5 h-5 text-secondary dark:text-yellow-400"
                       aria-hidden="true"
                     />
                   </div>
@@ -179,7 +192,7 @@ export const TeamPage = () => {
               transition={{ duration: 0.5 }}
               className="relative"
             >
-              <div className="relative rounded-3xl bg-gradient-to-br from-accent via-accent/90 to-accent/80 p-8 shadow-2xl shadow-accent/30">
+              <div className="relative rounded-3xl bg-linear-to-br from-blue-600 via-blue-600/90 to-blue-600/80 p-8 shadow-2xl shadow-blue-600/30">
                 <div className="absolute inset-0 rounded-3xl overflow-hidden">
                   <div className="absolute top-0 right-0 w-48 h-48 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2" />
                   <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2" />

@@ -28,11 +28,11 @@ const features = [
 
 export const HeroSection = () => {
   const { resolvedTheme } = useTheme();
-  
+
 
   return (
     <section
-      className="relative min-h-screen flex items-center pt-16 md:pt-20 overflow-hidden"
+      className="relative min-h-screen flex items-center pt-0 sm:pt-16 md:pt-20 overflow-hidden"
       aria-labelledby="hero-heading"
     >
       {/* Background */}
@@ -63,7 +63,7 @@ export const HeroSection = () => {
         }}
       />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-1 sm:py-12 md:py-20">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Content */}
           <motion.div

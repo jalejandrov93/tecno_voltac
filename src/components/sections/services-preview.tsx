@@ -42,7 +42,7 @@ const BRANDS = [
 export const ServicesPreview = () => {
   return (
     <section
-      className="py-16 md:py-24 bg-white dark:bg-slate-900"
+      className="py-8 bg-white dark:bg-slate-900"
       aria-labelledby="services-heading"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

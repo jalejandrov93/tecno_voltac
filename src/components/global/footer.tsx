@@ -13,12 +13,15 @@ import {
 } from "lucide-react";
 import { COMPANY_INFO, NAV_LINKS, SERVICES } from "@/lib/data";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export const Footer = () => {
   const [logoError, setLogoError] = useState(false);
+  const [currentYear, setCurrentYear] = useState<number | null>(null);
 
-  const currentYear = new Date().getFullYear();
+  useEffect(() => {
+    setCurrentYear(new Date().getFullYear());
+  }, []);
 
   return (
     <footer className="dark:bg-slate-900 bg-slate-50 text-slate-900 dark:text-slate-300">
@@ -110,7 +113,7 @@ export const Footer = () => {
                   aria-label="Ver ubicación en Google Maps"
                 >
                   <MapPin
-                    className="w-4 h-4 mt-0.5 flex-shrink-0"
+                    className="w-4 h-4 mt-0.5 shrink-0"
                     aria-hidden="true"
                   />
                   <span>{COMPANY_INFO.address}</span>
@@ -122,7 +125,7 @@ export const Footer = () => {
                   className="flex items-center gap-3 text-sm dark:text-slate-400 text-slate-900 dark:hover:text-white hover:text-primary transition-colors"
                   aria-label={`Llamar a ${COMPANY_INFO.phone}`}
                 >
-                  <Phone className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
+                  <Phone className="w-4 h-4 shrink-0" aria-hidden="true" />
                   <span>{COMPANY_INFO.phone}</span>
                 </a>
               </li>
@@ -132,12 +135,12 @@ export const Footer = () => {
                   className="flex items-center gap-3 text-sm dark:text-slate-400 text-slate-900 dark:hover:text-white hover:text-primary transition-colors"
                   aria-label={`Enviar correo a ${COMPANY_INFO.email}`}
                 >
-                  <Mail className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
+                  <Mail className="w-4 h-4 shrink-0" aria-hidden="true" />
                   <span>{COMPANY_INFO.email}</span>
                 </a>
               </li>
               <li className="flex items-center gap-3 text-sm dark:text-slate-400 text-slate-900">
-                <Clock className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
+                <Clock className="w-4 h-4 shrink-0" aria-hidden="true" />
                 <span>{COMPANY_INFO.businessHours}</span>
               </li>
             </ul>
@@ -175,6 +178,20 @@ export const Footer = () => {
               <span className="font-semibold">NIT:</span> {COMPANY_INFO.nit} | {COMPANY_INFO.city},{" "}
               {COMPANY_INFO.country}
             </p>
+            <div className="flex items-center gap-4 md:gap-6">
+              <Link
+                href="/terminos-y-condiciones"
+                className="hover:text-primary transition-colors"
+              >
+                Términos y Condiciones
+              </Link>
+              <Link
+                href="/politica-de-datos"
+                className="hover:text-primary transition-colors"
+              >
+                Política de Datos
+              </Link>
+            </div>
           </div>
         </div>
       </div>

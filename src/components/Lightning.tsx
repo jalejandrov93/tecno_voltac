@@ -22,8 +22,11 @@ const Lightning: React.FC<LightningProps> = ({
     if (!canvas) return;
 
     const resizeCanvas = () => {
-      canvas.width = canvas.clientWidth;
-      canvas.height = canvas.clientHeight;
+      const parent = canvas.parentElement;
+      if (parent) {
+        canvas.width = parent.clientWidth;
+        canvas.height = parent.clientHeight;
+      }
     };
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas);
@@ -177,9 +180,11 @@ const Lightning: React.FC<LightningProps> = ({
     const uIntensityLocation = gl.getUniformLocation(program, "uIntensity");
     const uSizeLocation = gl.getUniformLocation(program, "uSize");
 
+    let animationFrameId: number;
     const startTime = performance.now();
+
     const render = () => {
-      resizeCanvas();
+      // Improved: removed resizeCanvas() from loop
       gl.viewport(0, 0, canvas.width, canvas.height);
       gl.uniform2f(iResolutionLocation, canvas.width, canvas.height);
       const currentTime = performance.now();
@@ -190,12 +195,18 @@ const Lightning: React.FC<LightningProps> = ({
       gl.uniform1f(uIntensityLocation, intensity);
       gl.uniform1f(uSizeLocation, size);
       gl.drawArrays(gl.TRIANGLES, 0, 6);
-      requestAnimationFrame(render);
+      animationFrameId = requestAnimationFrame(render);
     };
-    requestAnimationFrame(render);
+    render();
 
     return () => {
       window.removeEventListener("resize", resizeCanvas);
+      cancelAnimationFrame(animationFrameId);
+      // Optional: Clean up WebGL resources if needed, though most browsers handle this fine on component unmount
+      gl.deleteProgram(program);
+      gl.deleteShader(vertexShader);
+      gl.deleteShader(fragmentShader);
+      gl.deleteBuffer(vertexBuffer);
     };
   }, [hue, xOffset, speed, intensity, size]);
 

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useMemo } from "react";
 import {
   Zap,
   Flame,
@@ -9,6 +10,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import type { Service } from "@/lib/data/services";
+import { BorderBeam } from "@/components/ui/border-beam"
 
 const iconMap: Record<string, LucideIcon> = {
   Zap,
@@ -26,6 +28,13 @@ export const ServiceCard = ({
   variant = "compact",
 }: ServiceCardProps) => {
   const IconComponent = iconMap[service.icon] || Zap;
+  const random = useMemo(() => {
+    let hash = 0;
+    for (let i = 0; i < service.id.length; i++) {
+      hash = service.id.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    return Math.abs(hash % 1000);
+  }, [service.id]);
 
   if (variant === "compact") {
     return (
@@ -34,17 +43,17 @@ export const ServiceCard = ({
         className="group block "
         aria-label={`Ver más sobre ${service.title}`}
       >
-        <article className="relative overflow-hidden rounded-2xl bg-white dark:bg-slate-800 p-6 shadow-lg shadow-slate-200/50 dark:shadow-slate-900/50 transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 border border-slate-100 dark:border-slate-700">
+        <article className="relative overflow-hidden rounded-2xl bg-white dark:bg-slate-800 p-6 shadow-lg shadow-slate-200/50 dark:shadow-slate-900/50 transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 ">
           <div className="absolute top-0 right-0 w-32 h-32 bg-linear-to-bl from-primary/10 to-transparent rounded-bl-full" />
 
           <div className="relative">
-            <div className="flex flex-row gap-2 items-center justify-start text-primary dark:text-white mb-4  group-hover:scale-110 transition-transform duration-300">
+            <div className="flex flex-row gap-2 items-center justify-start text-primary dark:text-white mb-4 group-hover:text-yellow-400 transition-colors duration-300">
               <IconComponent className="w-10 h-10" aria-hidden="true" />
-              <h3 className="text-lg font-bold text-primary dark:text-white">
+              <h3 className="text-lg font-bold text-primary dark:text-white group-hover:text-yellow-400">
                 {service.title}
               </h3>
             </div>
-            <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-4">
+            <p className="text-slate-600 dark:text-slate-400  text-sm leading-relaxed mb-4">
               {service.shortDescription}
             </p>
 
@@ -69,6 +78,7 @@ export const ServiceCard = ({
               />
             </div>
           </div>
+          <BorderBeam colorFrom="#fcba03" colorTo="#fff" delay={random} />
         </article>
       </Link>
     );
@@ -77,7 +87,7 @@ export const ServiceCard = ({
   return (
     <article
       id={service.id}
-      className="scroll-mt-24 rounded-2xl bg-white dark:bg-slate-800 p-8 shadow-xl shadow-slate-200/50 dark:shadow-slate-900/50 border border-slate-100 dark:border-slate-700"
+      className="scroll-mt-24 rounded-2xl bg-white dark:bg-slate-800 p-8 shadow-xl shadow-slate-200/50 dark:shadow-slate-900/50  dark:border-slate-700"
     >
       <div className="flex flex-col lg:flex-row gap-8">
         <div className="shrink-0">
@@ -88,7 +98,7 @@ export const ServiceCard = ({
 
         <div className="flex-1">
           <div className="flex flex-wrap items-center gap-3 mb-4">
-            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white">
+            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white ">
               {service.title}
             </h2>
             {service.certifications?.map((cert) => (
@@ -148,6 +158,7 @@ export const ServiceCard = ({
           </div>
         </div>
       </div>
+      <BorderBeam colorFrom="#fcba03" colorTo="#fff" delay={random} />
     </article>
   );
 };

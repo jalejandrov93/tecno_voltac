@@ -22,6 +22,8 @@ import {
 import { CTASection } from "@/components/sections";
 import Image
   from "next/image";
+import { RetroGrid } from "@/components/ui/retro-grid"
+
 const iconMap: Record<string, LucideIcon> = {
   Shield,
   Award,
@@ -36,7 +38,7 @@ export const AboutPage = () => {
     <>
       {/* Hero */}
       <section className="relative pt-24 md:pt-32 pb-16 md:pb-24 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-primary/5 dark:from-slate-900 dark:via-slate-900 dark:to-primary/10" />
+        <div className="absolute inset-0 bg-linear-to-br from-slate-50 via-white to-primary/5 dark:from-slate-900 dark:via-slate-900 dark:to-primary/10" />
         <div className="absolute top-20 left-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
         <div className="absolute bottom-0 right-0 w-80 h-80 bg-secondary/10 rounded-full blur-3xl" />
 
@@ -94,7 +96,7 @@ export const AboutPage = () => {
               className="relative"
             >
               <Image
-                src="/img/hero/tc-history.png"
+                src="/img/hero/tc-history.webp"
                 alt="Historia de Tecnovoltac"
                 width={700}
                 height={700}
@@ -106,8 +108,9 @@ export const AboutPage = () => {
       </section>
 
       {/* Mission & Vision */}
-      <section className="py-16 md:py-24 bg-slate-50 dark:bg-slate-900/50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="relative py-16 md:py-24 bg-slate-50 dark:bg-slate-900/50 overflow-hidden">
+        <RetroGrid />
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-8">
             {/* Mission */}
             <motion.article
@@ -115,23 +118,28 @@ export const AboutPage = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="relative overflow-hidden rounded-2xl bg-white dark:bg-slate-800 p-8 border border-slate-100 dark:border-slate-700"
+              className="group flex flex-col overflow-hidden rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700"
             >
-              <div className="absolute bottom-0 right-0 w-32 h-32 bg-primary/10 rounded-tl-full" />
+              <div className="p-8 flex-1">
+                <div className="flex items-center gap-4 mb-6">
 
-              <div className="relative flex items-start justify-between gap-6">
-                <div className="flex-1">
-                  <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">
-                    Nuestra Misión
+                  <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
+                    Nuestra <span className="text-blue-400 dark:text-yellow-400">Misión</span>
                   </h2>
+                </div>
 
-                  <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
-                    {COMPANY_MISSION}
-                  </p>
-                </div>
-                <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-primary/10 text-primary flex-shrink-0">
-                  <Target className="w-10 h-10" aria-hidden="true" />
-                </div>
+                <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
+                  {COMPANY_MISSION}
+                </p>
+              </div>
+              <div className="relative h-64 w-full overflow-hidden">
+                <Image
+                  src="/img/hero/mision.webp"
+                  alt="Nuestra Misión"
+                  fill
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-linear-to-t from-slate-900/50 to-transparent opacity-60" />
               </div>
             </motion.article>
 
@@ -141,23 +149,28 @@ export const AboutPage = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="relative overflow-hidden rounded-2xl bg-white dark:bg-slate-800 p-8 border border-slate-100 dark:border-slate-700"
+              className="group flex flex-col overflow-hidden rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700"
             >
-              <div className="absolute bottom-0 right-0 w-32 h-32 bg-secondary/10 dark:bg-primary/10 rounded-tl-full" />
+              <div className="p-8 flex-1">
+                <div className="flex items-center gap-4 mb-6">
 
-              <div className="relative flex items-start justify-between gap-6">
-                <div className="flex-1">
-                  <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">
-                    Nuestra Visión
+                  <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
+                    Nuestra <span className="text-blue-400 dark:text-yellow-400">Visión</span>
                   </h2>
+                </div>
 
-                  <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
-                    {COMPANY_VISION}
-                  </p>
-                </div>
-                <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-secondary/10 dark:bg-primary/10 text-secondary dark:text-primary flex-shrink-0">
-                  <Eye className="w-10 h-10" aria-hidden="true" />
-                </div>
+                <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
+                  {COMPANY_VISION}
+                </p>
+              </div>
+              <div className="relative h-64 w-full overflow-hidden">
+                <Image
+                  src="/img/hero/tc-v.webp"
+                  alt="Nuestra Visión"
+                  fill
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-linear-to-t from-slate-900/50 to-transparent opacity-60" />
               </div>
             </motion.article>
           </div>
@@ -196,15 +209,17 @@ export const AboutPage = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="group p-6 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700 hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+                  className="group p-6 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700 shadow-xs hover:shadow-sm hover:-translate-y-1 transition-all duration-300"
                 >
-                  <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary/10 text-yellow-400 mb-4 group-hover:scale-110 transition-transform duration-300">
-                    <IconComponent className="w-6 h-6" aria-hidden="true" />
-                  </div>
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="inline-flex items-center justify-center text-yellow-400 shrink-0">
+                      <IconComponent className="w-12 h-12" aria-hidden="true" />
+                    </div>
 
-                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
-                    {value.title}
-                  </h3>
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+                      {value.title}
+                    </h3>
+                  </div>
 
                   <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
                     {value.description}

@@ -76,8 +76,8 @@ export const CTASection = () => {
                 size="lg"
                 className="bg-primary text-white hover:bg-primary/60 hover:text-white dark:text-slate-900"
               >
-                <ArrowRight className="w-5 h-5" aria-hidden="true" />
                 Solicitar Cotización
+                <ArrowRight className="w-5 h-5" aria-hidden="true" />
               </Button>
             </Link>
 

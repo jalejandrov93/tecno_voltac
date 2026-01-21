@@ -14,7 +14,6 @@ const contactMethods = [
     description: "Llámenos directamente",
     value: COMPANY_INFO.phone,
     href: `tel:${COMPANY_INFO.phone}`,
-    color: "primary",
   },
   {
     icon: MessageCircle,
@@ -22,7 +21,6 @@ const contactMethods = [
     description: "Respuesta inmediata",
     value: COMPANY_INFO.whatsapp,
     href: COMPANY_INFO.whatsappLink,
-    color: "accent",
   },
   {
     icon: Mail,
@@ -30,31 +28,23 @@ const contactMethods = [
     description: "Escríbanos",
     value: COMPANY_INFO.email,
     href: `mailto:${COMPANY_INFO.email}`,
-    color: "secondary",
   },
   {
     icon: Clock,
     title: "Horario",
     description: "Atención presencial",
     value: COMPANY_INFO.businessHours,
-    color: "primary",
   },
 ];
-
-const colorClasses = {
-  primary: "bg-primary/10 text-primary",
-  accent: "bg-accent/10 text-accent",
-  secondary: "bg-secondary/10 text-secondary",
-};
 
 export const ContactPage = () => {
   return (
     <>
       {/* Hero */}
       <section className="relative pt-24 md:pt-32 pb-16 md:pb-24 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-primary/5 dark:from-slate-900 dark:via-slate-900 dark:to-primary/10" />
-        <div className="absolute top-20 left-0 w-96 h-96 bg-secondary/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-0 w-80 h-80 bg-primary/10 rounded-full blur-3xl" />
+        <div className="absolute inset-0 bg-linear-to-br from-slate-50 via-white to-primary/5 dark:from-slate-900 dark:via-slate-900 dark:to-primary/10" />
+        <div className="absolute top-20 left-0 w-96 h-96 bg-blue-400/10 dark:bg-yellow-400/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-0 w-80 h-80 bg-blue-600/10 dark:bg-yellow-400/10 rounded-full blur-3xl" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -63,13 +53,13 @@ export const ContactPage = () => {
             transition={{ duration: 0.5 }}
             className="text-center max-w-3xl mx-auto"
           >
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/10 text-secondary text-sm font-medium mb-6">
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 dark:bg-yellow-400/20 text-blue-600 dark:text-yellow-400 text-sm font-medium mb-6">
               <MessageCircle className="w-4 h-4" aria-hidden="true" />
               Estamos para ayudarle
             </span>
 
             <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6">
-              <span className="text-primary">Contáctenos</span>
+              <span className="text-blue-600 dark:text-yellow-400">Contáctenos</span>
             </h1>
 
             <p className="text-lg text-slate-600 dark:text-slate-400">
@@ -104,15 +94,16 @@ export const ContactPage = () => {
                     className="block p-6 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700 hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
                     aria-label={`${method.title}: ${method.value}`}
                   >
-                    <div
-                      className={`inline-flex items-center justify-center w-12 h-12 rounded-xl ${colorClasses[method.color as keyof typeof colorClasses]
-                        } mb-4`}
-                    >
-                      <method.icon className="w-6 h-6" aria-hidden="true" />
+                    <div className="flex items-center gap-4 mb-4">
+                      <div
+                        className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-blue-50 dark:bg-yellow-400/10 text-blue-600 dark:text-yellow-400 shrink-0"
+                      >
+                        <method.icon className="w-6 h-6" aria-hidden="true" />
+                      </div>
+                      <h3 className="font-bold text-slate-900 dark:text-white">
+                        {method.title}
+                      </h3>
                     </div>
-                    <h3 className="font-bold text-slate-900 dark:text-white mb-1">
-                      {method.title}
-                    </h3>
                     <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">
                       {method.description}
                     </p>
@@ -122,15 +113,16 @@ export const ContactPage = () => {
                   </a>
                 ) : (
                   <div className="p-6 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700">
-                    <div
-                      className={`inline-flex items-center justify-center w-12 h-12 rounded-xl ${colorClasses[method.color as keyof typeof colorClasses]
-                        } mb-4`}
-                    >
-                      <method.icon className="w-6 h-6" aria-hidden="true" />
+                    <div className="flex items-center gap-4 mb-4">
+                      <div
+                        className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-blue-50 dark:bg-yellow-400/10 text-blue-600 dark:text-yellow-400 shrink-0"
+                      >
+                        <method.icon className="w-6 h-6" aria-hidden="true" />
+                      </div>
+                      <h3 className="font-bold text-slate-900 dark:text-white">
+                        {method.title}
+                      </h3>
                     </div>
-                    <h3 className="font-bold text-slate-900 dark:text-white mb-1">
-                      {method.title}
-                    </h3>
                     <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">
                       {method.description}
                     </p>
@@ -197,7 +189,7 @@ export const ContactPage = () => {
                 <div className="p-4">
                   <div className="flex items-start gap-3">
                     <MapPin
-                      className="w-5 h-5 text-primary flex-shrink-0 mt-0.5"
+                      className="w-5 h-5 text-blue-600 dark:text-yellow-400 shrink-0 mt-0.5"
                       aria-hidden="true"
                     />
                     <div>
@@ -213,22 +205,22 @@ export const ContactPage = () => {
               </div>
 
               {/* Quick Contact Card */}
-              <div className="bg-gradient-to-br from-primary via-primary/95 to-primary/90 rounded-2xl p-6 text-white shadow-xl">
+              <div className="bg-linear-to-br from-blue-600 via-blue-500 to-blue-400 dark:from-slate-700 dark:via-slate-800 dark:to-slate-900 rounded-2xl p-6 text-white shadow-xl">
                 <div className="flex items-center gap-4 mb-4">
                   <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center">
-                    <Shield className="w-6 h-6" aria-hidden="true" />
+                    <Shield className="w-6 h-6 dark:text-yellow-400" aria-hidden="true" />
                   </div>
                   <div>
                     <p className="font-bold text-lg">
                       ¿Prefiere atención inmediata?
                     </p>
-                    <p className="text-white/80 text-sm">
+                    <p className="text-white/80 dark:text-gray-300 text-sm">
                       Contáctenos por WhatsApp
                     </p>
                   </div>
                 </div>
 
-                <p className="text-white/90 text-sm mb-4">
+                <p className="text-white/90 dark:text-gray-300 text-sm mb-4">
                   Nuestro equipo está disponible para responder sus consultas
                   y agendar visitas técnicas. Respuesta garantizada en minutos.
                 </p>
@@ -292,15 +284,15 @@ export const ContactPage = () => {
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
-                <span className="w-2 h-2 rounded-full bg-accent" />
+                <span className="w-2 h-2 rounded-full bg-blue-600 dark:bg-yellow-400" />
                 Cotización sin compromiso
               </div>
               <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
-                <span className="w-2 h-2 rounded-full bg-accent" />
+                <span className="w-2 h-2 rounded-full bg-blue-600 dark:bg-yellow-400" />
                 Visita técnica gratuita
               </div>
               <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
-                <span className="w-2 h-2 rounded-full bg-accent" />
+                <span className="w-2 h-2 rounded-full bg-blue-600 dark:bg-yellow-400" />
                 Asesoría personalizada
               </div>
             </div>
