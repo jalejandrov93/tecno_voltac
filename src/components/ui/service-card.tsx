@@ -87,11 +87,11 @@ export const ServiceCard = ({
   return (
     <article
       id={service.id}
-      className="scroll-mt-24 rounded-2xl bg-white dark:bg-slate-800 p-8 shadow-xl shadow-slate-200/50 dark:shadow-slate-900/50  dark:border-slate-700"
+      className="relative scroll-mt-24 rounded-2xl bg-white dark:bg-slate-800 p-8 shadow-xl shadow-slate-200/50 dark:shadow-slate-900/50  dark:border-slate-700"
     >
       <div className="flex flex-col lg:flex-row gap-8">
         <div className="shrink-0">
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-linear-to-br from-primary to-primary/80 text-white shadow-lg shadow-primary/30">
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-linear-to-br from-primary to-primary/80 text-white dark:text-yellow-400 shadow-lg shadow-primary/30">
             <IconComponent className="w-10 h-10" aria-hidden="true" />
           </div>
         </div>
@@ -128,7 +128,7 @@ export const ServiceCard = ({
                     className="flex items-start gap-3 text-slate-600 dark:text-slate-400"
                   >
                     <span className="shrink-0 w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center mt-0.5">
-                      <span className="w-2 h-2 rounded-full bg-primary" />
+                      <span className="w-2 h-2 rounded-full bg-primary dark:bg-yellow-400" />
                     </span>
                     {feature}
                   </li>
@@ -148,7 +148,7 @@ export const ServiceCard = ({
                     className="flex items-start gap-3 text-slate-600 dark:text-slate-400"
                   >
                     <span className="shrink-0 w-5 h-5 rounded-full bg-secondary/10 flex items-center justify-center mt-0.5">
-                      <span className="w-2 h-2 rounded-full bg-secondary" />
+                      <span className="w-2 h-2 rounded-full bg-secondary dark:bg-yellow-400" />
                     </span>
                     {benefit}
                   </li>
