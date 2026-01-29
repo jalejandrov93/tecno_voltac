@@ -9,13 +9,11 @@ import { NAV_LINKS, COMPANY_INFO } from "@/lib/data";
 import { Button } from "@/components/ui/button";
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 import Image from "next/image";
-import ElectricBorder from "@/components/ElectricBorder";
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [logoError, setLogoError] = useState(false);
-  const [hoveredLink, setHoveredLink] = useState<string | null>(null);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -47,10 +45,11 @@ export const Navbar = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
-        ? "bg-white/40 dark:bg-slate-900/40 backdrop-blur-md shadow-lg shadow-slate-200/50 dark:shadow-slate-900/50"
-        : "bg-transparent"
-        }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled
+          ? "bg-white/40 dark:bg-slate-900/40 backdrop-blur-md shadow-lg shadow-slate-200/50 dark:shadow-slate-900/50"
+          : "bg-transparent"
+      }`}
     >
       <nav
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
@@ -85,43 +84,30 @@ export const Navbar = () => {
                 </span>
               </>
             )}
-
           </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-1">
             {NAV_LINKS.map((link) => {
               const isActive = pathname === link.href;
-              const isHovered = hoveredLink === link.href;
 
-              const linkContent = (
+              return (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`px-4 py-2 border-b border-transparent font-medium transition-all ${isActive
-                    ? "text-primary "
-                    : "text-slate-600  dark:text-slate-300 hover:text-primary "
+                  className={`relative px-4 py-2 font-medium transition-colors duration-300
+                    after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full 
+                    after:origin-bottom-left after:scale-x-0 after:bg-primary 
+                    after:transition-transform after:duration-300 after:ease-in-out
+                    ${
+                      isActive
+                        ? "text-primary after:scale-x-100"
+                        : "text-slate-600 dark:text-slate-300 hover:text-primary hover:after:scale-x-100"
                     }`}
                   aria-current={isActive ? "page" : undefined}
-                  onMouseEnter={() => setHoveredLink(link.href)}
-                  onMouseLeave={() => setHoveredLink(null)}
                 >
                   {link.label}
                 </Link>
-              );
-
-              return isHovered ? (
-                <ElectricBorder
-                  key={link.href}
-                  color="#3b82f6"
-                  speed={1}
-                  chaos={0.08}
-                  borderRadius={8}
-                >
-                  {linkContent}
-                </ElectricBorder>
-              ) : (
-                linkContent
               );
             })}
           </div>
@@ -186,10 +172,11 @@ export const Navbar = () => {
                     <Link
                       key={link.href}
                       href={link.href}
-                      className={`block px-4 py-3 rounded-lg font-medium transition-all ${isActive
-                        ? "text-primary bg-primary/10"
-                        : "text-slate-600 dark:text-slate-300 hover:text-primary hover:bg-primary/5"
-                        }`}
+                      className={`block px-4 py-3 rounded-lg font-medium transition-all ${
+                        isActive
+                          ? "text-primary bg-primary/10"
+                          : "text-slate-600 dark:text-slate-300 hover:text-primary hover:bg-primary/5"
+                      }`}
                       aria-current={isActive ? "page" : undefined}
                     >
                       {link.label}
@@ -206,10 +193,7 @@ export const Navbar = () => {
                     {COMPANY_INFO.phone}
                   </a>
                   <Link href="/contacto">
-                    <Button
-                      variant="default"
-                      className="w-full"
-                    >
+                    <Button variant="default" className="w-full">
                       Solicitar Cotización
                     </Button>
                   </Link>
